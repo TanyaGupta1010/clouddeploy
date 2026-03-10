@@ -25,3 +25,15 @@ jobs:
 
       - name: Push Image to DockerHub
         run: docker push hypedpanda/clouddeploy
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo docker pull hypedpanda/clouddeploy
+            sudo docker stop clouddeploy || true
+            sudo docker rm clouddeploy || true
+            sudo docker run -d -p 3000:3000 --name clouddeploy hypedpanda/clouddeploy
