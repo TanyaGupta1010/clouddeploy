@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CloudDeploy Dashboard</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+padding:40px;
+}
+
+.box{
+background:#1e293b;
+padding:30px;
+border-radius:10px;
+width:400px;
+margin:auto;
+}
+
+h1{
+color:#38bdf8;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>CloudDeploy Dashboard</h1>
+
+<p id="status">Loading...</p>
+
+</div>
+
+<script>
+
+fetch("/status")
+.then(res => res.json())
+.then(data => {
+
+document.getElementById("status").innerHTML = `
+Application Status: ${data.status} <br><br>
+Environment: ${data.environment} <br><br>
+Deployment Time: ${data.deploymentTime} <br><br>
+Version: ${data.commit}
+`
+
+})
+
+</script>
+
+</body>
+
+</html>
